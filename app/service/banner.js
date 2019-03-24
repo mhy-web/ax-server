@@ -3,10 +3,9 @@
 const Service = require('egg').Service;
 
 class BannerService extends Service {
-  async findBanner() {
-    console.log('find');
+  async findBanner(query) {
     try {
-      const result = await this.ctx.model.Banner.find();
+      const result = await this.ctx.model.Banner.find().limit(query);
       return result;
     } catch (error) {
       console.log(error);

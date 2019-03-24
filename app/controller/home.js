@@ -3,69 +3,105 @@
 const Controller = require('egg').Controller;
 
 class HomeController extends Controller {
-  async proxy() {
-    const { ctx } = this;
-    ctx.set('Access-Control-Allow-Origin', '*');
-    ctx.set('content-type', 'application/json;charset=UTF-8');
-  }
   async index() {
     const { ctx } = this;
     // ctx.body 是 ctx.response.body 的简写， 和 ctx.request.body 不同
-    console.log('----url---', ctx.url);
     ctx.body = 'hi, egg';
   }
 
   async homeInfo() {
     const { ctx } = this;
-    const banner = await this.service.banner.findBanner();
-    const company = await this.service.company.findCompanyProfile();
-    const prolist = await this.service.project.findHomeProList();
-
-    ctx.set('Access-Control-Allow-Origin', '*');
-    ctx.set('content-type', 'application/json;charset=UTF-8');
-
-    ctx.body = JSON.stringify({
-      code: 0,
-      msg: 'home info',
-      data: {
+    const query = ctx.query;
+    const bannerLimit = query.banner_limit || 5;
+    const companyLimit = query.company_limit || 3;
+    const proParams = {
+      ...query.page_index,
+      ...query.page_size
+    };
+    let data = {};
+    try {
+      const banner = await this.service.banner.findBanner(bannerLimit);
+      const company = await this.service.company.findCompanyProfile(companyLimit);
+      const prolist = await this.service.project.findProList(proParams);
+      data = {
         banner: banner,
         company_profile: company,
         home_pro_list: prolist
-      }
-    });
+
+      };
+    } catch (e) {
+      console.log(e);
+    }
+
+    ctx.body = {
+      code: 0,
+      msg: 'home info',
+      data
+    };
     ctx.status = 200;
-    console.log('--------------hahah---------', ctx.body);
   }
 
   async projectList() {
     const { ctx } = this;
+    const query = ctx.query;
+    let data = [];
+    try {
+      data = await this.service.project.findProList(query);
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
     ctx.body = {
       code: 0,
       msg: 'project list',
-      list: []
+      list: data
     };
   }
 
   async projectDetail() {
     const { ctx } = this;
+    const query = ctx.query;
+    let data = {};
+    const { pid } = query;
+
+    try {
+      data = await this.service.project.findProjectDetail(pid);
+    } catch (e) {
+      console.log(e);
+    }
     ctx.body = {
       code: 0,
       msg: 'project detail',
-      data: {}
+      data
     };
   }
   async activityList() {
     const { ctx } = this;
+    const query = ctx.query;
+    let data = [];
+    try {
+      data = await this.service.activity.findActivityList(query);
+    } catch (e) {
+      console.log(e);
+    }
     ctx.body = {
       code: 0,
       msg: 'activity list',
-      data: {}
+      data
     };
   }
   async activityDetail() {
+    const { ctx } = this;
+    let data = {};
+    const activityId = ctx.query.aid;
+    try {
+      data = await this.service.activity.findActivityDetail(activityId);
+    } catch (e) {
+      console.log(e);
+    }
     this.ctx.body = {
       code: 0,
-      data: {}
+      data
     };
   }
   async activityAdd() {

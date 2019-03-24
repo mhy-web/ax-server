@@ -12,19 +12,19 @@ const config = {
     level: 'DEBUG'
   },
   // add your middleware config here
-  middleware: [],
+  middleware: ['proxy', 'gzip'],
 
-  httpProxy: {
-    '/api': {
-      target: 'http://localhost:7001/',
-      pathRewrite: {'^/api': ''}
-    }
-  },
+  // httpProxy: {
+  //   '/api': {
+  //     target: 'http://localhost:7001/',
+  //     pathRewrite: {'^/api': ''}
+  //   }
+  // },
 
-  cors: {
-    origin: '*', // 访问白名单,根据你自己的需要进行设置
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
-  },
+  // cors: {
+  //   origin: '*', // 访问白名单,根据你自己的需要进行设置
+  //   allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+  // },
 
   mongoose: {
     client: {

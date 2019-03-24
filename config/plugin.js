@@ -8,9 +8,9 @@ module.exports = {
   mongoose: {
     enable: true,
     package: 'egg-mongoose'
-  },
-  httpProxy: {
-    enable: false,
-    package: 'egg-http-proxy'
   }
+  // httpProxy: {
+  //   enable: false,
+  //   package: 'egg-http-proxy'
+  // }
 };
