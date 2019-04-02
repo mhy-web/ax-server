@@ -9,7 +9,7 @@ class UserService extends Service {
   }
   async addUser() {
     const user = new this.ctx.model.User({
-      user_name: 'mhy',
+      user_name: '',
       passeord: ''
     });
     user.save();
