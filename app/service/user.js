@@ -7,10 +7,17 @@ class UserService extends Service {
     const result = await this.ctx.model.User.find();
     return result;
   }
-  async addUser() {
+  async addUser(query) {
+    const userName = query.user_name;
+    const isExists = await this.ctx.model.User.find({user_name: userName});
+    if (isExists) {
+      return {
+        code: 40001,
+        msg: '用户名已存在'
+      };
+    }
     const user = new this.ctx.model.User({
-      user_name: '',
-      passeord: ''
+      ...query
     });
     user.save();
   }

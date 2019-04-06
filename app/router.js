@@ -6,6 +6,7 @@
 module.exports = app => {
   const { router, controller } = app;
   // user
+  router.post('/user/add', controller.user.addUser);
   router.get('/login', controller.user.login);
   router.get('/logout', controller.user.logout);
   router.get('/user/info', controller.user.userInfo);
