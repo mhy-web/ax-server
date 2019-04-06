@@ -12,7 +12,7 @@ const config = {
     level: 'DEBUG'
   },
   // add your middleware config here
-  middleware: ['proxy', 'gzip'],
+  middleware: ['errorHandler', 'proxy', 'gzip'],
 
   // httpProxy: {
   //   '/api': {
@@ -36,7 +36,25 @@ const config = {
   },
 
   security: {
-    domainWhiteList: ['localhost'] // 安全白名单，以 . 开头
+    xframe: {
+      enable: false
+    },
+    csrf: {
+      enable: false
+      // 判断是否需要 ignore 的方法，请求上下文 context 作为第一个参数
+      // ignore: '127.0.0.1' // ctx => isInnerIp(ctx.ip)
+    },
+    // csp: {
+    // match: '/example', // 只针对某一路径
+    // policy: {
+    //   // ...
+    // },
+    // ignore: '/example', // 针对某一路径忽略某安全选项
+    // xframe: {
+    //   // ...
+    // },
+    // },
+    domainWhiteList: ['localhost', '127.0.0.1'] // 安全白名单，以 . 开头
   }
 };
 
