@@ -105,10 +105,45 @@ class HomeController extends Controller {
     };
   }
   async activityAdd() {
-    this.ctx.body = {
-      code: 0,
-      msg: 'successfull'
-    };
+    const query = this.ctx.query;
+    try {
+      const res = await this.service.activity.addActivityItem(query);
+      if (res) {
+        this.ctx.body = {
+          code: 0,
+          msg: 'successfull',
+          data: res
+        };
+      }
+    } catch (e) {
+      console.error(e);
+      this.ctx.body = {
+        code: 400,
+        msg: 'successfull',
+        data: e
+      };
+    }
+  }
+  async activityUpdate() {
+    const query = this.ctx.query;
+    if (query.hasOwnProperty('_id') && query.id) {
+      try {
+        const res = await this.service.activity.updateActivityItem(query);
+        console.log('res', res);
+        this.ctx.body = {
+          code: 0,
+          msg: 'update successfull',
+          data: res
+        };
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      this.ctx.body = {
+        code: 400,
+        msg: '数据不存在'
+      };
+    }
   }
 }
 

@@ -25,7 +25,8 @@ class UserController extends Controller {
   async userEdit() {
     const query = this.ctx.query;
     try {
-      if (query._id) {
+      console.log(query);
+      if (query.hasOwnProperty('_id') && query._id) {
         const res = await this.ctx.service.user.updateUser(query);
         console.log('object', res);
         if (res.ok) {
@@ -41,6 +42,7 @@ class UserController extends Controller {
         }
       } else {
         const res = await this.ctx.service.user.findUser({user_name: query.user_name});
+        console.log('res', res);
         if (res.length > 0) {
           this.ctx.body = {
             code: 400003,

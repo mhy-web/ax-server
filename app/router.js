@@ -20,4 +20,5 @@ module.exports = app => {
   router.get('/activity/list', controller.home.activityList);
   router.get('/activity/detail', controller.home.activityDetail);
   router.post('/activity/add', controller.home.activityAdd);
+  router.post('/activity/update', controller.home.activityUpdate);
 };

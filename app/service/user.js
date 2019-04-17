@@ -1,6 +1,8 @@
 'use strict';
 
 const Service = require('egg').Service;
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 class UserService extends Service {
   async findUser(query) {
@@ -15,18 +17,22 @@ class UserService extends Service {
         msg: '用户名已存在'
       };
     }
+    /*
     const user = new this.ctx.model.User({
       ...query
     });
     user.save();
     return user;
+    */
+    return this.ctx.model.User.create(query);
   }
   async updateUser(query) {
+    const id = query._id;
+    delete query._id;
     const result = await this.ctx.model.User.updateOne({
-      '_id': query.id
-    }, {
-      ...query
-    });
+      '_id': ObjectId(id)
+    }, query, {upsert: true, multi: false});
+    console.log('result', result);
     return result;
   }
 }
