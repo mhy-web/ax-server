@@ -25,4 +25,5 @@ module.exports = app => {
 
   // admin
   router.get('/admin/banner/list', controller.admin.banner.getBannerList);
+  router.post('/admin/banner/update', controller.admin.banner.updateOrCreateBanner);
 };
