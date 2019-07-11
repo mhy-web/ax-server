@@ -20,9 +20,9 @@ class HomeController extends Controller {
     };
     let data = {};
     try {
-      const banner = await this.service.banner.findBanner(bannerLimit);
-      const company = await this.service.company.findCompanyProfile(companyLimit);
-      const prolist = await this.service.project.findProList(proParams);
+      const banner = await this.service.h5.banner.findBanner(bannerLimit);
+      const company = await this.service.h5.company.findCompanyProfile(companyLimit);
+      const prolist = await this.service.h5.project.findProList(proParams);
       data = {
         banner: banner,
         company_profile: company,
@@ -46,7 +46,7 @@ class HomeController extends Controller {
     const query = ctx.query;
     let data = [];
     try {
-      data = await this.service.project.findProList(query);
+      data = await this.service.h5.project.findProList(query);
       console.log(data);
     } catch (e) {
       console.log(e);
@@ -65,7 +65,7 @@ class HomeController extends Controller {
     const { pid } = query;
 
     try {
-      data = await this.service.project.findProjectDetail(pid);
+      data = await this.service.h5.project.findProjectDetail(pid);
     } catch (e) {
       console.log(e);
     }
@@ -80,7 +80,7 @@ class HomeController extends Controller {
     const query = ctx.query;
     let data = [];
     try {
-      data = await this.service.activity.findActivityList(query);
+      data = await this.service.h5.activity.findActivityList(query);
     } catch (e) {
       console.log(e);
     }
@@ -95,7 +95,7 @@ class HomeController extends Controller {
     let data = {};
     const activityId = ctx.query.aid;
     try {
-      data = await this.service.activity.findActivityDetail(activityId);
+      data = await this.service.h5.activity.findActivityDetail(activityId);
     } catch (e) {
       console.log(e);
     }
@@ -107,7 +107,7 @@ class HomeController extends Controller {
   async activityAdd() {
     const query = this.ctx.query;
     try {
-      const res = await this.service.activity.addActivityItem(query);
+      const res = await this.service.h5.activity.addActivityItem(query);
       if (res) {
         this.ctx.body = {
           code: 0,
@@ -128,7 +128,7 @@ class HomeController extends Controller {
     const query = this.ctx.query;
     if (query.hasOwnProperty('_id') && query.id) {
       try {
-        const res = await this.service.activity.updateActivityItem(query);
+        const res = await this.service.h5.activity.updateActivityItem(query);
         console.log('res', res);
         this.ctx.body = {
           code: 0,
