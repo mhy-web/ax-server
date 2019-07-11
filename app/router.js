@@ -22,4 +22,7 @@ module.exports = app => {
   router.get('/activity/detail', controller.h5.home.activityDetail);
   router.post('/activity/add', controller.h5.home.activityAdd);
   router.post('/activity/update', controller.h5.home.activityUpdate);
+
+  // admin
+  router.get('/admin/banner/list', controller.admin.banner.getBannerList);
 };

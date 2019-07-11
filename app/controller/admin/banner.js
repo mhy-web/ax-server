@@ -5,13 +5,21 @@ const Constructor = require('egg').Controller;
 class AdminBannerControll extends Constructor {
   async getBannerList() {
     const { ctx } = this;
-    console.log('ctx', ctx);
+    let data = null;
     try {
-      const res = await this.service.banner.findBannerList();
-      console.log('res', res);
+      const query = ctx.query;
+      const res = await this.service.admin.banner.findBannerList({...query});
+      data = res;
     } catch (e) {
       console.error(e);
     }
+
+    ctx.body = {
+      code: 0,
+      msg: 'banner list',
+      data
+    };
+    ctx.status = 200;
   }
 }
 

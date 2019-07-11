@@ -6,8 +6,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 class AdminBannerService extends Service {
   async findBannerList({pageIndex = 1, pageSize = 10}) {
-    // return this.ctx.model.AdminBanner
-    return '';
+    return this.ctx.model.Banner.find().skip(parseInt(pageIndex, 10)).limit(parseInt(pageSize, 10));
   }
 }
 
