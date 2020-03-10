@@ -29,8 +29,8 @@ const config = {
   mongoose: {
     client: {
       // 'mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[database][?options]]'
-      url: 'mongodb://axAdmin:csu@hwsrv-539295.hostwindsdns.com:27017/ax_db',
-      // url: 'mongodb://localhost:27017/ax_db',
+      // url: 'mongodb://axAdmin:csu@hwsrv-539295.hostwindsdns.com:27017/ax_db',
+      url: 'mongodb://localhost:27017/ax_db',
       options: {
         useNewUrlParser: true,
         auto_reconnect: true,
