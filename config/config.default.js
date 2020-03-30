@@ -8,8 +8,14 @@
 **/
 const config = {
 
+  // 默认只会输出 INFO 及以上（WARN 和 ERROR）的日志到终端中。（注意：这些日志默认只在 local 和 unittest 环境下会打印到终端）
+  // 日志分为 NONE，DEBUG，INFO，WARN 和 ERROR 5 个级别。
   logger: {
-    level: 'DEBUG'
+    dir: '~/logs/ax-server/',
+    // 打印到文件的日志
+    level: 'ERROR',
+    // 终端日志级别
+    consoleLevel: 'NONE'
   },
   // add your middleware config here
   middleware: ['errorHandler', 'proxy', 'gzip'],
