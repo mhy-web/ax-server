@@ -1,6 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
+const env = require('../utils/env');
 
 /**
 * built-in config
@@ -35,8 +36,7 @@ const config = {
   mongoose: {
     client: {
       // 'mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[database][?options]]'
-      // url: 'mongodb://axAdmin:csu@hwsrv-539295.hostwindsdns.com:27017/ax_db',
-      url: 'mongodb://localhost:27017/ax_db',
+      url: env.getMongoUrl(),
       options: {
         useNewUrlParser: true,
         auto_reconnect: true,
