@@ -16,3 +16,4 @@ typings/
 .DS_Store
 
 /env.js
+*.log

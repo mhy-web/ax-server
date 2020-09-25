@@ -14,6 +14,7 @@ module.exports = app => {
   router.get('/user/info', controller.h5.user.userInfo);
 
   // home page
+  router.get('/egg', controller.h5.home.index);
   router.get('/', controller.h5.home.homeInfo);
   router.get('/index/info', controller.h5.home.homeInfo);
   router.get('/project/list', controller.h5.home.projectList);

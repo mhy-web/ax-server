@@ -1,12 +1,11 @@
 'use strict';
 
-const Controller = require('egg').Controller;
+// const Controller = require('egg').Controller;
+const BaseController = require('../../core/baseController');
 
-class HomeController extends Controller {
+class HomeController extends BaseController {
   async index() {
-    const { ctx } = this;
-    // ctx.body 是 ctx.response.body 的简写， 和 ctx.request.body 不同
-    ctx.body = 'hi, egg';
+    this.success('hi, egg');
   }
 
   async homeInfo() {
@@ -29,16 +28,10 @@ class HomeController extends Controller {
         home_pro_list: prolist
 
       };
+      this.success(data);
     } catch (e) {
       console.log(e);
     }
-
-    ctx.body = {
-      code: 0,
-      msg: 'home info',
-      data
-    };
-    ctx.status = 200;
   }
 
   async projectList() {
