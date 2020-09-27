@@ -1,27 +1,55 @@
 'use strict';
 
-const Controller = require('egg').Controller;
+// const Controller = require('egg').Controller;
+const BaseController = require('../../core/baseController');
+const types = require('../../core/types');
 
-class UserController extends Controller {
-  async userTestExists() {
-    let isExists = false;
+class UserController extends BaseController {
+  async login() {
+    try {
+      const data = {};
+      let msg = '';
+      const query = this.ctx.query;
+      const res = await this.ctx.service.user.logIn(query);
+      console.log('res', res);
+
+      if (res.success) {
+        const user = res.data;
+        data.token = user.token;
+        data.user_name = user.user_name;
+        data.nick = user.nick;
+        data.address = user.address;
+        data.point = user.point;
+        data.age = user.age;
+        data.sex = user.schsexool;
+        data.school = user.school;
+      } else {
+        msg = types.PWDERR;
+      }
+      this.success({data, msg, auth: res.auth});
+    } catch (err) {
+      console.error(err);
+      this.failed({}, 500, 'service error');
+    }
+  }
+
+  async signUp() {
     try {
       const query = this.ctx.query;
-      const res = await this.ctx.service.user.findUser(query, 'one');
-      isExists = res.length > 0;
-    } catch (e) {
-      console.error(e);
-      this.ctx.body = {
-        code: 40001,
-        is_exists: '',
-        msg: 'test user exists error'
-      };
+      const users = await this.ctx.service.user.findUser({user_name: query.user_name});
+      if (!users.length) {
+        const res = await this.ctx.service.user.signUp(query);
+        this.success({
+          data: res
+        });
+      } else {
+        this.success({code: 20001, msg: 'user name repeat'});
+      }
+    } catch (err) {
+      console.error(err);
     }
-    this.ctx.body = {
-      code: 0,
-      is_exists: isExists
-    };
   }
+
   async userEdit() {
     const query = this.ctx.query;
     try {
@@ -63,13 +91,6 @@ class UserController extends Controller {
     }
   }
 
-  async login() {
-    this.ctx.body = {
-      code: 0,
-      token: '',
-      msg: ''
-    };
-  }
   async logout() {
     this.ctx.body = {
       code: 0,
@@ -106,3 +127,4 @@ class UserController extends Controller {
 }
 
 module.exports = UserController;
+

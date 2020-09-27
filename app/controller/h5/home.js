@@ -5,7 +5,7 @@ const BaseController = require('../../core/baseController');
 
 class HomeController extends BaseController {
   async index() {
-    this.success('hi, egg');
+    this.success({msg: 'hi, egg'});
   }
 
   async homeInfo() {
@@ -28,7 +28,7 @@ class HomeController extends BaseController {
         home_pro_list: prolist
 
       };
-      this.success(data);
+      this.success({data});
     } catch (e) {
       console.log(e);
     }

@@ -1,8 +1,9 @@
 'use strict';
 
-const Constructor = require('egg').Controller;
+// const Constructor = require('egg').Controller;
+const BaseController = require('../../core/baseController');
 
-class AdminBannerControll extends Constructor {
+class AdminBannerControll extends BaseController {
   async getBannerList() {
     const { ctx } = this;
     let data = null;

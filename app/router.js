@@ -9,6 +9,7 @@ module.exports = app => {
   // user
   // router.post('/user/update', controller.h5.user.updateUser);
   router.post('/user/edit', controller.h5.user.userEdit);
+  router.get('/signup', controller.h5.user.signUp);
   router.get('/login', controller.h5.user.login);
   router.get('/logout', controller.h5.user.logout);
   router.get('/user/info', controller.h5.user.userInfo);

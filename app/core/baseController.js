@@ -5,13 +5,24 @@ class BaseController extends Controller {
     return this.ctx.session.user;
   }
 
-  success(data, msg) {
+  success({data, code, msg, ...reset}) {
     this.ctx.status = 200;
+    code = code || 0;
     msg = msg || '';
     this.ctx.body = {
-      code: 0,
+      code,
       msg: msg,
-      data
+      data,
+      ...reset
+    };
+  }
+
+  failed(data, code, msg) {
+    this.ctx.status = 500;
+    this.ctx.body = {
+      code,
+      data,
+      msg
     };
   }
 
