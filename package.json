@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "egg-bin dev",
-    "start": "egg-scripts start EGG_SERVER_ENV=prod --daemon --title=egg-server-ax-server",
+    "start": "egg-scripts start --env=prod --daemon --title=egg-server-ax-server",
     "stop": "egg-scripts stop --title=egg-server-ax-server",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
