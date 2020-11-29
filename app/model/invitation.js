@@ -23,6 +23,8 @@ module.exports = app => {
     'apply_price': String,
     'apply_mobile': Number,
     'point_spent': Number
+  }, {
+    versionKey: false
   });
   return mongoose.model('Invitation', InvitationSchema, 'invitation');
 };

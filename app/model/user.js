@@ -7,6 +7,7 @@ module.exports = app => {
   const UserSchema = new Schema({
     'user_name': String,
     'password': String,
+    // '_pwd': String,
     'salt': String,
     'nick': String,
     'sex': String,
@@ -25,6 +26,8 @@ module.exports = app => {
       default: false
     },
     inviter_id: String
+  }, {
+    versionKey: false
   });
   return mongoose.model('User', UserSchema, 'user');
 };

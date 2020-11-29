@@ -3,7 +3,8 @@
 const Service = require('egg').Service;
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const { getRandomSalt, getPasswordHash, createAuth } = require('../core/crypto');
+
+const expire = 60 * 60 * 2; // 单位：s
 
 class UserService extends Service {
   async logIn(query) {
@@ -11,38 +12,48 @@ class UserService extends Service {
 
     let user = await this.ctx.model.User.find({user_name});
     user = Array.isArray(user) && user.length > 0 ? user[0] : null;
-    if (user) {
-      const salt = user.salt;
-      const pwdHash = getPasswordHash(password, salt);
-      console.log('===user---', user);
-      if (pwdHash === user.password) {
-        const auth = createAuth(password, user_name);
-        return {
-          success: true,
-          auth: auth,
-          data: user
-        };
-      } else {
-        return {
-          success: false,
-          err: 'PWDERR'
-        };
-      }
-    } else {
+    if (!user) {
       return {
         msg: 'user not found'
       };
     }
+
+    const salt = user.salt;
+    const pwdHash = this.ctx.helper.getPasswordHash(password, salt);
+    if (pwdHash !== user.password) {
+      return {
+        success: false,
+        err: 'PWDERR'
+      };
+    }
+
+    const now = Math.round(Date.now() / 1000);
+
+    const { app } = this;
+    const token = app.jwt.sign({
+      u: user._id,
+      exp: now + expire // 过期时间戳
+      // iat: now // 签发时间，自动生成
+      // nbf: now // 生效时间，默认为签发时间
+    }, app.config.jwt.secret);
+
+    const data = this.ctx.helper.filterPropFromArray(user, ['__v', 'salt', 'password']);
+    return {
+      success: true,
+      token: token,
+      data
+    };
   }
 
   async signUp(query) {
     const { user_name, password, is_invited, nick, mobile, email, age, school, point, address, sex } = query;
 
-    const salt = getRandomSalt();
-    const pwd = getPasswordHash(password, salt);
+    const salt = this.ctx.helper.getRandomSalt();
+    const pwd = this.ctx.helper.getPasswordHash(password, salt);
     const data = {
       user_name,
       password: pwd,
+      // _pwd: password,
       salt,
       is_invited,
       nick: nick || '',

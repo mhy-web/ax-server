@@ -1,3 +1,4 @@
 module.exports = {
-  'PWDERR': 'password error'
+  'PWDERR': 'password error',
+  'TYPEERR': 'Type Error'
 };

@@ -35,10 +35,31 @@ const config = {
   // },
 
   // cors: {
-  //   origin: '*', // 访问白名单,根据你自己的需要进行设置
+  //   origin: 'http://localhost,http://ax-ht.mhynet.cn', // 访问白名单,根据你自己的需要进行设置
   //   allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
   // },
-
+  security: {
+    // domainWhiteList: ['http://localhost:8080'],//允许访问接口的白名单
+    csrf: {
+      enable: false,
+      ignoreJSON: true
+    }
+  },
+  jwt: {
+    secret: 'xh2_jjkIH23JJD$'
+  },
+  // session: {
+  //   renew: true // 当用户 Session 的有效期仅剩下最大有效期一半的时候，重置 Session 的有效期
+  // },
+  redis: {
+    agent: true,
+    client: {
+      port: 6379,
+      host: '127.0.0.1',
+      password: null,
+      db: 0
+    }
+  },
   mongoose: {
     client: {
       // 'mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[database][?options]]'

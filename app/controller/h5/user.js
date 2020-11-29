@@ -1,4 +1,4 @@
-'use strict';
+-'use strict';
 
 // const Controller = require('egg').Controller;
 const BaseController = require('../../core/baseController');
@@ -6,30 +6,24 @@ const types = require('../../core/types');
 
 class UserController extends BaseController {
   async login() {
-    try {
-      const data = {};
-      let msg = '';
-      const query = this.ctx.query;
-      const res = await this.ctx.service.user.logIn(query);
-      console.log('res', res);
-
-      if (res.success) {
-        const user = res.data;
-        data.token = user.token;
-        data.user_name = user.user_name;
-        data.nick = user.nick;
-        data.address = user.address;
-        data.point = user.point;
-        data.age = user.age;
-        data.sex = user.schsexool;
-        data.school = user.school;
-      } else {
-        msg = types.PWDERR;
+    const msg = '';
+    const params = this.ctx.request.body;
+    const res = await this.ctx.service.user.logIn(params);
+    const logInRules = {
+      user_name: 'string',
+      password: {
+        required: true,
+        type: 'string'
       }
-      this.success({data, msg, auth: res.auth});
-    } catch (err) {
-      console.error(err);
-      this.failed({}, 500, 'service error');
+    };
+    this.ctx.helper.foo('hello ');
+    const errors = this.ctx.validate(logInRules, params);
+    console.log('errors', errors);
+    console.log('res', res);
+    if (res.success) {
+      this.success({ data: res.data, msg, auth: res.token });
+    } else {
+      this.success({msg: types[res.err], code: 1});
     }
   }
 
@@ -98,16 +92,16 @@ class UserController extends BaseController {
     };
   }
   async userInfo() {
+    const user = this.ctx.state.user;
+    console.log('---user---\n', user);
     try {
-      const query = this.ctx.query;
-      console.log('this', this.ctx);
-      const res = await this.ctx.service.user.findUser(query);
-      console.log('res', res);
+      const user_id = user.u;
+      const res = await this.ctx.service.user.findUser({_id: user_id});
       if (res.length) {
         this.ctx.body = {
           code: 0,
           msg: '',
-          data: res[0]
+          data: res[0] || []
         };
       } else {
         this.ctx.body = {

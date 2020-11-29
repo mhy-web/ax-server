@@ -20,6 +20,8 @@ module.exports = app => {
     },
     'banner': String,
     'more_info': [String]
+  }, {
+    versionKey: false
   });
   return mongoose.model('Activity', activitySchema, 'activity');
 };

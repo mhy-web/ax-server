@@ -24,7 +24,8 @@ module.exports = app => {
     timestamps: {
       createdAt: 'create_time',
       updatedAt: 'update_time'
-    }
+    },
+    versionKey: false
   });
   return mongoose.model('Banner', bannerSchema, 'banner');
 };

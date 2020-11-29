@@ -13,6 +13,8 @@ module.exports = app => {
     },
     'apply_mobile': Number,
     'point_spent': String
+  }, {
+    versionKey: false
   });
   return mongoose.model('Apply', ApplySchema, 'apply');
 };
